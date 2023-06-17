@@ -25,16 +25,42 @@ def level_scrap(url):
                 level_desc = ''
             relative_href = anchor.get("href")
             absolute_href = urljoin(url, relative_href)
-            cursor.execute('''INSERT INTO levels VALUES(?,?,?)''',
-                           (level_num, level_desc, absolute_href))
-            conn.commit()
+            # cursor.execute('''INSERT INTO levels VALUES(?,?,?)''',
+            #                (level_num, level_desc, absolute_href))
+            # conn.commit()
+
+
+# level_scrap('https://backrooms-wiki.wikidot.com/normal-levels-i')
 
 
 def connection(url):
     html = requests.get(url)
     bs_obj = BeautifulSoup(html.content, "html.parser")
     content = bs_obj.find('div', {'id': 'page-content'})
-    print(content)
+    entrances = get_connection('Entrances', content)
+    exits = get_connection('Exits', content)
+    # what to do with the hyperlink?
+    return [entrances, exits]
 
 
-connection("https://backrooms-wiki.wikidot.com/level-0")
+def get_connection(name, content):
+    result = content.find('h1', string='Entrances And Exits:')
+    if name == 'Entrances':
+        result = result.find_next(re.compile('h\\d'))
+    elif name == 'Exits':
+        result = result.find_next(re.compile('h\\d'))
+        result = result.find_next(re.compile('h\\d'))
+    # get all <p>
+    connections = []
+    next_tag = result.findNextSibling()
+    while next_tag.name == 'p':
+        links = next_tag.find_all('a')
+        for link in links:
+            if link.next.startswith('Level'):
+                href = link.get('href')
+                link = urljoin('https://backrooms-wiki.wikidot.com', href)
+                connections.append(link)
+        next_tag = next_tag.findNextSibling()
+    return connections
+
+
