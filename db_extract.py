@@ -8,7 +8,7 @@ import json
 
 def connection(conn, tag):
     if tag.name == 'p':
-        while tag.name == 'p':
+        while tag is not None and tag.name == 'p':
             links = tag.find_all('a')
             for link in links:
                 if link.next.startswith('Level'):
@@ -41,11 +41,12 @@ def get_connection(url):
     # temporary fix
     if entrances is not None:
         entrance_tag = entrances.findNextSibling()
-        print(entrance_tag)
-        connection(entrance_conn, entrance_tag)
+        if entrance_tag is not None:
+            connection(entrance_conn, entrance_tag)
     if exits is not None:
         exit_tag = exits.findNextSibling()
-        connection(exit_conn, exit_tag)
+        if exit_tag is not None:
+            connection(exit_conn, exit_tag)
     return [entrance_conn, exit_conn]
 
 
@@ -70,11 +71,11 @@ def level_scrap(url):
             relative_href = anchor.get("href")
             absolute_href = urljoin(url, relative_href)
             connect = get_connection(absolute_href)
-            # print(get_connection(absolute_href))
+            print(get_connection(absolute_href))
             serialized_connect = json.dumps(connect)
             cursor.execute('''INSERT INTO levels VALUES(?,?,?,?)''',
                            (level_num, level_desc, absolute_href, serialized_connect))
             conn.commit()
 
 
-level_scrap('https://backrooms-wiki.wikidot.com/normal-levels-i')
+# level_scrap('https://backrooms-wiki.wikidot.com/normal-levels-i')

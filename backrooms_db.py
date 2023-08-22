@@ -9,7 +9,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS levels(
                     description TEXT, 
                     link TEXT,
                     connection TEXT)''')
-conn.commit()
+# conn.commit()
 
 # test
 cursor.execute('''SELECT * from levels''')
