@@ -7,8 +7,9 @@ cursor = conn.cursor()
 cursor.execute('''CREATE TABLE IF NOT EXISTS levels(
                     level TEXT, 
                     description TEXT, 
-                    link TEXT)''')
-# conn.commit()
+                    link TEXT,
+                    connection TEXT)''')
+conn.commit()
 
 # test
 cursor.execute('''SELECT * from levels''')
