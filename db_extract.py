@@ -51,7 +51,7 @@ def get_connection(url):
 
 
 def level_scrap(url):
-    pattern = r'\s-\s[“"]([^”"]+)[”"]' # GPT
+    pattern = r'\s-\s[“"]([^”"]+)[”"]'  # GPT
     conn = sqlite3.connect("backrooms.db")
     cursor = conn.cursor()
     html = requests.get(url)
@@ -76,6 +76,5 @@ def level_scrap(url):
             cursor.execute('''INSERT INTO levels VALUES(?,?,?,?)''',
                            (level_num, level_desc, absolute_href, serialized_connect))
             conn.commit()
-
 
 # level_scrap('https://backrooms-wiki.wikidot.com/normal-levels-i')
