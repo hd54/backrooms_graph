@@ -52,7 +52,7 @@ def get_connection(url):
 
 def level_scrap(url):
     pattern = r'\s-\s[“"]([^”"]+)[”"]'  # GPT
-    conn = sqlite3.connect("backrooms.db")
+    conn = sqlite3.connect("backrooms_site/backrooms.db")
     cursor = conn.cursor()
     html = requests.get(url)
     bs_obj = BeautifulSoup(html.content, "html.parser")

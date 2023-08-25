@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("backrooms.db")
+conn = sqlite3.connect("backrooms_site/backrooms.db")
 cursor = conn.cursor()
 
 # cursor.execute('''DROP TABLE levels''')

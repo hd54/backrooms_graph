@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:sqlite:identifier.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="backrooms" uuid="0b1e935b-ac8e-4a04-9014-2f9ce8c31183">
+    <data-source source="LOCAL" name="backrooms" uuid="bbfd01fc-a06f-46dc-b758-7b57f701b105">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Acer\PycharmProjects\backrooms_graph\backrooms.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\Acer\PycharmProjects\backrooms_graph\backrooms_site\backrooms.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

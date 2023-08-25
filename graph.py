@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 G = nx.DiGraph()
 
-conn = sqlite3.connect('backrooms.db')
+conn = sqlite3.connect('backrooms_site/backrooms.db')
 cursor = conn.cursor()
 
 cursor.execute("SELECT * FROM levels")
