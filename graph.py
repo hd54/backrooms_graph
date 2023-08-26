@@ -13,6 +13,8 @@ cursor.execute("SELECT * FROM levels")
 results = cursor.fetchall()
 
 
+# return the array of connections to a level
+# serialization is needed because SQLite3 doesn't support array data type
 def convert_edges():
     level_pattern = r'(\d+)(.*)'
     enigmatic_pattern = r'\D'
@@ -30,6 +32,8 @@ def convert_edges():
     return entrance_edges
 
 
+# display database using pyplot
+# each node represent a level and edges represent the connection
 def db_to_nodes():
     for result in results:
         level, description, link, connection = result

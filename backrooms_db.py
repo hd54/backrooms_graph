@@ -1,5 +1,6 @@
 import sqlite3
 
+# create the database
 conn = sqlite3.connect("backrooms_site/backrooms.db")
 cursor = conn.cursor()
 

@@ -6,6 +6,7 @@ import re
 import json
 
 
+# add all hyperlinks of connections to a level (indicated by tag) to array 'conn'
 def connection(conn, tag):
     if tag.name == 'p':
         while tag is not None and tag.name == 'p':
@@ -26,6 +27,7 @@ def connection(conn, tag):
                 conn.append(link)
 
 
+# return an array of entrances and exits connecting to the current level (indicated by url)
 def get_connection(url):
     html = requests.get(url)
     bs_obj = BeautifulSoup(html.content, "html.parser")
@@ -50,6 +52,8 @@ def get_connection(url):
     return [entrance_conn, exit_conn]
 
 
+# scrap only levels with existing data and add to the database
+# the website is a list of 'li' tags. our levels data start at the 84th tag
 def level_scrap(url):
     pattern = r'\s-\s[“"]([^”"]+)[”"]'  # GPT
     conn = sqlite3.connect("backrooms_site/backrooms.db")
