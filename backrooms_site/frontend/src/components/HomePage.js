@@ -8,6 +8,6 @@ export default class HomePage extends Component {
 
     // template
     render() {
-        return <h1>Hi</h1>
+        return <h1>This should work</h1>
     }
 }
