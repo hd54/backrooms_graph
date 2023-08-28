@@ -1,21 +1,51 @@
-import React, { Component, useEffect, useState } from "react";
-import ReactFlow from "reactflow";
+import React, { Component } from "react";
+import ReactFlow, {MiniMap} from "reactflow";
 
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            elements: [],
+        };
     }
 
-    // template
-    render() {
-        fetch('/backrooms/api').then(response => response.json())
-            .then(data => {
-                console.log('Works')
+     componentDidMount() {
+        function transformDataToElements(data) {
+            return JSON.stringify(data.map(node => ({
+                id: node.id,
+                type: 'default', // Use a default node type
+                data: {
+                    level: node.level,
+                    description: node.description,
+                    link: node.link,
+                }
+            })));
+        }
 
+        // Fetch data when the component mounts
+        fetch('/backrooms/api')
+            .then(response => response.json())
+            .then(data => {
+                const elements = transformDataToElements(data)
+                this.setState({ elements })
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-        return <h1>This should work</h1>
+    }
+
+    // template
+    render() {
+        const { elements } = this.state;
+
+        return (
+            <div>
+                <ReactFlow elements={elements}>
+                    <MiniMap/>
+                    <p>Works now?</p>
+                </ReactFlow>
+            </div>
+        );
     }
 }
