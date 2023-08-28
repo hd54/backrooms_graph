@@ -78,11 +78,7 @@ WSGI_APPLICATION = 'backrooms_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'backrooms': {
-        'NAME': os.path.join(BASE_DIR, 'backrooms.db'),
+        'NAME': BASE_DIR / 'backrooms.db',
         'ENGINE': 'django.db.backends.sqlite3',
     }
 }

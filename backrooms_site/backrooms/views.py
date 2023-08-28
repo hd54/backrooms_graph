@@ -1,16 +1,15 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework import generics
 from .models import Level
+from .serializers import LevelSerializer
 
 
 # Create your views here.
-
 # basic template
 def index(request):
     return HttpResponse('')
 
 
-# TODO: front-end work needed for template.html
-def view(request):
-    data = Level.objects.all()
-    return render(request, 'your_template.html', {'data': data})
+class LevelView(generics.ListAPIView):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer

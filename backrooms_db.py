@@ -6,11 +6,12 @@ cursor = conn.cursor()
 
 # cursor.execute('''DROP TABLE levels''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS levels(
+                    id INTEGER PRIMARY KEY,
                     level TEXT, 
                     description TEXT, 
                     link TEXT,
                     connection TEXT)''')
-# conn.commit()
+conn.commit()
 
 # test
 cursor.execute('''SELECT * from levels''')

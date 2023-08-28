@@ -62,6 +62,7 @@ def level_scrap(url):
     bs_obj = BeautifulSoup(html.content, "html.parser")
     level_list = bs_obj.find_all("li")
     level_list = level_list[84:]
+    identifier = 1
     for level in level_list:
         anchor = level.find("a")
         level_num = anchor.next
@@ -77,8 +78,10 @@ def level_scrap(url):
             connect = get_connection(absolute_href)
             print(get_connection(absolute_href))
             serialized_connect = json.dumps(connect)
-            cursor.execute('''INSERT INTO levels VALUES(?,?,?,?)''',
-                           (level_num, level_desc, absolute_href, serialized_connect))
+            cursor.execute('''INSERT INTO levels (id, level, description, link, connection)
+             VALUES(?,?,?,?,?)''', (identifier, level_num, level_desc, absolute_href, serialized_connect))
             conn.commit()
+            identifier = identifier + 1
 
-# level_scrap('https://backrooms-wiki.wikidot.com/normal-levels-i')
+
+level_scrap('https://backrooms-wiki.wikidot.com/normal-levels-i')
