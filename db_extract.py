@@ -55,7 +55,7 @@ def get_connection(url):
 # scrap only levels with existing data and add to the database
 # the website is a list of 'li' tags. our levels data start at the 84th tag
 def level_scrap(url):
-    pattern = r'\s-\s[“"]([^”"]+)[”"]'  # GPT
+    pattern = r'\s-\s[“"]([^”"]+)[”"]'
     conn = sqlite3.connect("backrooms_site/backrooms.db")
     cursor = conn.cursor()
     html = requests.get(url)

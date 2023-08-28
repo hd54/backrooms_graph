@@ -26,6 +26,7 @@
     "@mui/core": "^5.0.0-alpha.54",
     "@mui/icons-material": "^5.14.6",
     "babel": "^6.23.0",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.15.0",
+    "reactflow": "^11.8.3"
   }
 }
