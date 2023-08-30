@@ -1,40 +1,47 @@
 import React, { Component } from "react";
 import cytoscape from "cytoscape";
+import coseBilkentLayout from "cytoscape-cose-bilkent";
 
 class CytoscapeGraph extends Component {
   constructor(props) {
     super(props);
-    this.cy = null; // Reference to the Cytoscape instance
+    this.cy = null;
   }
 
   componentDidMount() {
-    // Initialize Cytoscape within the container element
+    cytoscape.use(coseBilkentLayout);
+
+    // initialize
     this.cy = cytoscape({
       container: this.cyContainer,
-      elements: this.props.elements, // Pass graph data as a prop
-      layout: { name: "preset" }, // Adjust layout as needed
+      elements: this.props.elements,
+      layout: {
+        name: "cose-bilkent",
+        animate: true,
+      },
       style: [
-        {
-          selector: "node",
-          style: {
-            shape: "circle", // Change the shape to ellipse or your preferred style
-            content: "data(level)",
-            width: 5,
-            height: 5,
-            "background-color": "#3498db", // Customize node background color
-            color: "#ffffff", // Customize label text color
-            "font-size": 1,
-            "text-valign": "center",
-            "text-halign": "center",
-          },
-        },
-        // Define additional styles for edges or other elements if needed
+          {
+            selector: "node",
+            style: {
+              shape: "ellipse",
+              content: "data(level)",
+              width: 10,
+              height: 10,
+              "background-color": "#3498db",
+              color: "#ffffff",
+              "font-size": 1,
+              "text-valign": "center",
+              "text-halign": "center"
+            },
+          }
       ],
+      wheelSensitivity: 0.1,
     });
+
+    this.cy.layout({ name: "cose-bilkent" }).run();
   }
 
   componentWillUnmount() {
-    // Ensure you clean up the Cytoscape instance when unmounting
     if (this.cy) {
       this.cy.destroy();
     }

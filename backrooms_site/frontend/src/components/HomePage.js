@@ -25,10 +25,6 @@ export default class HomePage extends Component {
                     description: node.description,
                     link: node.link
                 },
-                position: {
-                    x: Math.random() * 1000,
-                    y: Math.random() * 1000,
-                },
             }));
         }
 
