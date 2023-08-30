@@ -1,51 +1,62 @@
 import React, { Component } from "react";
-import ReactFlow, {MiniMap} from "reactflow";
+import ReactFlow, { ReactFlowProvider } from 'reactflow';
+import CytoscapeGraph from "./CytoscapeGraph"; // Import the CytoscapeGraph component
 
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            elements: [],
-        };
-    }
+            elements: []
+        }
 
-     componentDidMount() {
+        this._isMounted = false;
+    };
+
+
+    componentDidMount() {
+        this._isMounted = true;
         function transformDataToElements(data) {
-            return JSON.stringify(data.map(node => ({
+            return data.map((node) => ({
                 id: node.id,
-                type: 'default', // Use a default node type
+                type: 'default',
                 data: {
                     level: node.level,
                     description: node.description,
-                    link: node.link,
-                }
-            })));
+                    link: node.link
+                },
+                position: {
+                    x: Math.random() * 1000,
+                    y: Math.random() * 1000,
+                },
+            }));
         }
 
-        // Fetch data when the component mounts
-        fetch('/backrooms/api')
+         fetch('/backrooms/api')
             .then(response => response.json())
             .then(data => {
-                const elements = transformDataToElements(data)
-                this.setState({ elements })
+                if (this._isMounted) {
+                    const elements = transformDataToElements(data);
+                    this.setState({ elements });
+                }
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
-            });
+            })
+    };
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
-    // template
     render() {
+        if (!this._isMounted) return null;
         const { elements } = this.state;
 
         return (
-            <div>
-                <ReactFlow elements={elements}>
-                    <MiniMap/>
-                    <p>Works now?</p>
-                </ReactFlow>
+            <div style={{ width: '100%', height: '100%' }}>
+                <CytoscapeGraph elements={elements} />
             </div>
-        );
-    }
+        )
+    };
 }
