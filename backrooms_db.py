@@ -4,13 +4,14 @@ import sqlite3
 conn = sqlite3.connect("backrooms_site/backrooms.db")
 cursor = conn.cursor()
 
-# cursor.execute('''DROP TABLE levels''')
+cursor.execute('''DROP TABLE levels''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS levels(
                     id INTEGER PRIMARY KEY,
                     level TEXT, 
                     description TEXT, 
                     link TEXT,
-                    connection TEXT)''')
+                    entrance TEXT,
+                    outlet TEXT)''')
 conn.commit()
 
 # test

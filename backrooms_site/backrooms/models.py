@@ -7,7 +7,8 @@ class Level(models.Model):
     level = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     link = models.TextField(blank=True, null=True)
-    connection = models.TextField(blank=True, null=True)
+    entrance = models.TextField(blank=True, null=True)
+    outlet = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False

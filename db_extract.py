@@ -8,14 +8,19 @@ import json
 
 # add all hyperlinks of connections to a level (indicated by tag) to array 'conn'
 def connection(conn, tag):
+    level_pattern = r'(\d+)(.*)'
+    enigmatic_pattern = r'\D'
     if tag.name == 'p':
         while tag is not None and tag.name == 'p':
             links = tag.find_all('a')
             for link in links:
                 if link.next.startswith('Level'):
                     href = link.get('href')
-                    link = urljoin('https://backrooms-wiki.wikidot.com', href)
-                    conn.append(link)
+                    start = re.search(level_pattern, href)
+                    if start is not None:
+                        start_level = start.group(0)
+                        if not re.search(enigmatic_pattern, start_level):
+                            conn.append('Level ' + start_level)
             tag = tag.findNextSibling()
     elif tag.name == 'ul':
         lists = tag.find_all('li')
@@ -23,8 +28,11 @@ def connection(conn, tag):
             link = bullet.find('a')
             if link is not None and link.next.startswith('Level'):
                 href = link.get('href')
-                link = urljoin('https://backrooms-wiki.wikidot.com', href)
-                conn.append(link)
+                start = re.search(level_pattern, href)
+                if start is not None:
+                    start_level = start.group(0)
+                    if not re.search(enigmatic_pattern, start_level):
+                        conn.append('Level ' + start_level)
 
 
 # return an array of entrances and exits connecting to the current level (indicated by url)
@@ -40,7 +48,6 @@ def get_connection(url):
         exits = content.find(re.compile('h\\d'), string='Exits:')
     entrance_conn = []
     exit_conn = []
-    # temporary fix
     if entrances is not None:
         entrance_tag = entrances.findNextSibling()
         if entrance_tag is not None:
@@ -77,9 +84,10 @@ def level_scrap(url):
             absolute_href = urljoin(url, relative_href)
             connect = get_connection(absolute_href)
             print(get_connection(absolute_href))
-            serialized_connect = json.dumps(connect)
-            cursor.execute('''INSERT INTO levels (id, level, description, link, connection)
-             VALUES(?,?,?,?,?)''', (identifier, level_num, level_desc, absolute_href, serialized_connect))
+            serialized_entrance = json.dumps(connect[0])
+            serialized_exit = json.dumps(connect[1])
+            cursor.execute('''INSERT INTO levels (id, level, description, link, entrance, outlet) VALUES(?,?,?,?,?,?)''',
+                           (identifier, level_num, level_desc, absolute_href, serialized_entrance, serialized_exit))
             conn.commit()
             identifier = identifier + 1
 

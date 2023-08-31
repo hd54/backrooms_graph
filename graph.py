@@ -16,18 +16,11 @@ results = cursor.fetchall()
 # return the array of connections to a level
 # serialization is needed because SQLite3 doesn't support array data type
 def convert_edges():
-    level_pattern = r'(\d+)(.*)'
-    enigmatic_pattern = r'\D'
     entrance_edges = []
     for result in results:
-        level, description, link, connection = result
-        connection = json.loads(connection)
-        end_level = re.search(level_pattern, link).group(0)
-        for entrance in connection[0]:
-            start = re.search(level_pattern, entrance)
-            start_level = start.group(0)
-            if not re.search(enigmatic_pattern, start_level):
-                entrance_edges.append(['Level ' + start_level, 'Level ' + end_level])
+        identifier, level, description, link, entrance, outlet = result
+        for way in entrance:
+            entrance_edges.append([way, level])
     # print(entrance_edges)
     return entrance_edges
 
@@ -36,7 +29,7 @@ def convert_edges():
 # each node represent a level and edges represent the connection
 def db_to_nodes():
     for result in results:
-        level, description, link, connection = result
+        identifier, level, description, link, entrance, outlet = result
         G.add_node(level, description=description, link=link)
     edges = convert_edges()
     G.add_edges_from(edges)
