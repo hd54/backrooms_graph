@@ -7,8 +7,11 @@ export default class HomePage extends Component {
         super(props);
 
         this.state = {
-            elements: []
-        }
+            elements: {
+                nodes: [],
+                edges: [],
+            },
+    };
 
         this._isMounted = false;
     };
@@ -17,15 +20,31 @@ export default class HomePage extends Component {
     componentDidMount() {
         this._isMounted = true;
         function transformDataToElements(data) {
-            return data.map((node) => ({
-                id: node.id,
+            const nodes =  data.map((node) => ({
+                id: node.level,
                 type: 'default',
                 data: {
                     level: node.level,
                     description: node.description,
-                    link: node.link
+                    link: node.link,
+                    entrance: node.entrance,
+                    outlet: node.outlet
                 },
             }));
+
+            const edges = []
+            data.forEach((node) => {
+                const entranceArray = JSON.parse(node.entrance)
+                entranceArray.forEach((targetID) => {
+                    edges.push({
+                        id: `edge-${node.level}-${targetID}`,
+                        source: node.level,
+                        target: targetID,
+                    });
+                });
+            });
+
+            return { nodes, edges };
         }
 
          fetch('/backrooms/api')

@@ -10,14 +10,12 @@ class CytoscapeGraph extends Component {
 
   componentDidMount() {
     cytoscape.use(coseBilkentLayout);
-
+    console.log(this.props.elements);
     // initialize
     this.cy = cytoscape({
       container: this.cyContainer,
-      elements: this.props.elements,
       layout: {
         name: "cose-bilkent",
-        animate: true,
       },
       style: [
           {
@@ -30,13 +28,24 @@ class CytoscapeGraph extends Component {
               "background-color": "#3498db",
               color: "#ffffff",
               "font-size": 1,
+              'text-wrap': 'wrap',
               "text-valign": "center",
               "text-halign": "center"
             },
-          }
+          },
+          {
+            selector: "edge",
+            style: {
+              width: 2,
+              "line-color": "#ccc",
+            },
+          },
       ],
       wheelSensitivity: 0.1,
     });
+    const { nodes, edges } = this.props.elements;
+    this.cy.add(nodes);
+    this.cy.add(edges);
 
     this.cy.layout({ name: "cose-bilkent" }).run();
   }
