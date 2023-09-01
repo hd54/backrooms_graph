@@ -26,3 +26,9 @@ body {
   height: 100%;
   display: flex;
 }
+
+#cy {
+  width: 90%;
+  height: 300px;
+  display: block;
+}

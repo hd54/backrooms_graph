@@ -21,8 +21,7 @@ class CytoscapeGraph extends Component {
           {
             selector: "node",
             style: {
-              shape: "ellipse",
-              content: "data(level)",
+              "label": "data(level)",
               width: 10,
               height: 10,
               "background-color": "#3498db",
@@ -36,16 +35,20 @@ class CytoscapeGraph extends Component {
           {
             selector: "edge",
             style: {
-              width: 2,
-              "line-color": "#ccc",
+              'width': 3,
+              'line-color': '#ccc',
+              'target-arrow-color': '#ccc',
+              'target-arrow-shape': 'triangle'
             },
           },
       ],
-      wheelSensitivity: 0.1,
+      wheelSensitivity: 0.2,
     });
     const { nodes, edges } = this.props.elements;
     this.cy.add(nodes);
-    this.cy.add(edges);
+    this.cy.ready(() => {
+      this.cy.add(edges);
+    });
 
     this.cy.layout({ name: "cose-bilkent" }).run();
   }

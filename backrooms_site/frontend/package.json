@@ -29,6 +29,7 @@
     "cytoscape": "^3.26.0",
     "cytoscape-cola": "^2.5.1",
     "cytoscape-cose-bilkent": "^4.1.0",
+    "cytoscape-dagre": "^2.5.0",
     "react-force-graph-2d": "^1.25.0",
     "react-router-dom": "^6.15.0",
     "reactflow": "^11.8.3",

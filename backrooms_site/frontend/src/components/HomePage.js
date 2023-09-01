@@ -21,9 +21,9 @@ export default class HomePage extends Component {
         this._isMounted = true;
         function transformDataToElements(data) {
             const nodes =  data.map((node) => ({
-                id: node.level,
-                type: 'default',
+                group: "nodes",
                 data: {
+                    id: node.level,
                     level: node.level,
                     description: node.description,
                     link: node.link,
@@ -32,16 +32,25 @@ export default class HomePage extends Component {
                 },
             }));
 
+            const levels = nodes.map((node) => node.data.level);
+
             const edges = []
             data.forEach((node) => {
                 const entranceArray = JSON.parse(node.entrance)
-                entranceArray.forEach((targetID) => {
-                    edges.push({
-                        id: `edge-${node.level}-${targetID}`,
-                        source: node.level,
-                        target: targetID,
+                if (entranceArray) {
+                    entranceArray.forEach((targetID) => {
+                        if (levels.includes(targetID)) {
+                            edges.push({
+                                group: "edges",
+                                data: {
+                                    id: `edge-${targetID}-${node.level}`,
+                                    source: targetID,
+                                    target: node.level,
+                                },
+                            });
+                        }
                     });
-                });
+                }
             });
 
             return { nodes, edges };
