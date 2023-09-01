@@ -35,7 +35,7 @@ class CytoscapeGraph extends Component {
           {
             selector: "edge",
             style: {
-              'width': 3,
+              'width': 1,
               'line-color': '#ccc',
               'target-arrow-color': '#ccc',
               'target-arrow-shape': 'triangle'
